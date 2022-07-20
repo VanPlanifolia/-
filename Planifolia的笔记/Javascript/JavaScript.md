@@ -242,3 +242,134 @@ console.log(typeof object);
 				",你的实际工资为:" + (basisMoney - sanMoney - realMoney));
 		</script>
 ```
+
+## JavaScript第三天
+
+1.我们在第二天已经学习了简单的流程控制 if 语句，当然学过其他高级语言的应该知道for循环，同样这样是进行流程控制的只不过是用来控制循环，for循环的应用之广泛是因为程序经常是用来处理人无法处理的大量重复性操作的，使用for循环就能根据一定的条件来循环的执行程序体里面的内容。for循环的使用方法如下 for(表达式1；表达式2；表达式3){循环体} 表达式1用于定义循环中的变量，表达式2用于进行逻辑判断，表达式3则是步长。显然这样说非常的空洞难以理解，所有下面我们就粘一块代码来进行展示。
+
+```javascript
+简单的打印10遍，你好世界，通过这个例子我们就很好理解上面描述的三个表达式的含义
+		<script type="text/javascript">
+			for (var i = 0; i < 10; i++) {
+				document.writeln("你好世界" + i + "</br>");
+			}
+		</script>
+```
+
+2.我们学习了if循环能够进行多重嵌套，那么显然for语句也能够进行嵌套而且对于许多的算法题都是会用到for循环的嵌套。for循环的嵌套执行流程我们在此简单的介绍一下，他依然是按照程序从上到下的执行顺序执行的，就比如说先执行一次外部的for循环然后进入内部的for循环，将内部的for循环执行完毕之后会再次执行外部循环以此类推知道外层循环执行完毕。同样我们也是通过一个例子来进行演示。
+
+```javascript
+//打印矩形，通过双层循环来打印一个 ‘hang’ 高度 ‘kuan’宽度的 矩形，显然我们可以看到外层循环是来控制共有多少行的内部循环是用来控制一行有多少个*的
+			var hang=prompt("输入行数");
+			var kuan=prompt("输入一行多少个");
+			for(var i=0;i<hang;i++){
+				for(var j=0;j<kuan;j++){
+					document.write("*");
+				}
+				document.write("<br>");
+			}
+```
+
+3.与for循环搭配的还有两个比较常用的语法糖，break，continue 其中break是用来跳出整个循环的，而continue是用来跳出当前这一次循环的。这两个的用处同样也是在算法中，比如说我们需要从一个列表/数组中找到某一个值，首先需要循环的输出这个数组并且通过if进行判断是否是这个值是否为我们所需要的如果不是则continue跳出这一次循环如果是则直接break结束循环，同样我们在后面粘一块代码来进行展示。
+
+```javascript
+//找到array数组中 5 所在的下标并且打印出来，显然我们从数组中找到对应的元素首先要遍历这个数组然后进行if判断如果满足条件就终止循环，如果不满足就跳出循环
+			var array=[3,6,2,3,4,5,8,9,0];
+			alert(array.length);
+			for(var a=0;a<array.length;a++){
+				if(array[a]==5){
+					document.write("5在数组中的下标为："+(a+1));
+					break;
+				}else{
+					continue;
+				}
+			}
+```
+
+4.以上我们基本上就介绍完毕for循环的语法了，但是for循环的知识不仅仅是这些，那么我们接下来就通过一些例子来进行演练一下
+
+* 4.1 输出1-100内的奇数偶数，这是个比较简单的练习没有设计到双层循环等等。首先偶数的定义为能够被2整除的数就是偶数，那么我们只需要判断他是否能够被2整除就行了然后不能被整除的就是奇数。
+
+  ```javascript
+                          document.write("偶数：")
+  			for(var i=1;i<=100;i++){
+  				if(i%2==0){
+  					document.write(i+" ");
+  				}
+  			}
+
+  			document.write("<br>奇数：")
+  			for(var j=1;j<=100;j=j+1){
+  				if(j%2==1){
+  					document.write(j+" ");
+  				}
+  			}
+  ```
+* 4.2 打印三角形，想要打印一个正三角形，显然我们需要使用两层循环并且还要根据外层循环的次数来输出不同的内容，具体见下代码；
+
+  ```javascript
+                               for(var a=1;a<=9;a++){
+  				for(var b=1;b<=a;b++){
+  					document.write("*");
+  				}
+  				document.write("<br>");
+  			     }
+  ```
+* 4.3 打印九九乘法表，九九乘法表实现原理和正三角形基本一样，我们只要吧三角形的组成成分替换成 i*j=i+‘x’+j ij分别为第i列第j行。
+
+  ```javascript
+                         for(var c=1;c<=9;c++){
+  				for(var d=1;d<=c;d++){
+  					document.write(d+"x"+c+"="+c*d+"\t");
+  				}
+  				document.write("<br>");
+  			}
+  ```
+* 4.4 高斯累加，也就是累计 1-x 内所有数字的和，显然还是使用单层循环循环从1开始到x步长为1，然后使用一个变量sum保存和即可
+
+  ```javascript
+  			var a=prompt("输入你要累加的数");
+  			var base=1;
+  			for(var i=2;i<=a;i++){
+  				base=base+i;
+  			}
+  			document.write(base);
+  ```
+* 4.4 输入若干成绩计算总数，平均数，最大值，最小值，总数与平均数都没有什么好说和上面的累加几乎一样，而最大最小值我们可以先把第一次输入的值暂存为最大最小值，然后后面如果每一次都有比他们大或者小的值就替换掉最大最小值然后最后输出最大最小值即可；
+
+  ```javascript
+                          var max;
+  			var min;
+  			var sum;
+  			sum=max=min=Number(prompt("请输入第1次的考试成绩"));
+  			var temp;
+  			for(var b=2;b<=5;b++){
+  				temp=Number(prompt("请输入第"+b+"次的考试成绩"));
+  				if(temp<min){
+  					min=temp;
+  				}
+  				if(temp>max){
+  					max=temp;
+  				}
+  				sum=sum+temp;
+  			}
+  			document.write("你的考试总成绩为:"+sum+",平均分为:"+(sum/5)+",最大成绩为"+max+",最差成绩为"+min);
+  ```
+
+5.拓展语法糖，switch case，这个是多重if elseif的平替版，使用switch case可以大幅度的提高代码的整洁度与可读性，并且在阿里编程规范中规定了不允许出现三层以上的if嵌套，所有我们可以使用switch case这个语法糖来完善自己的代码，当然大部分情况都可以不用，做一个简单的演示
+
+```javascript
+                                                var a = 0;
+
+						while(a<5){
+							switch (a){
+								case 0:
+								case 3:	a=a+2;
+								case 1:
+								case 2: a=a+3
+								default: a=a+5;
+							}
+						}
+						// A 0  B 2  C 5 D 10
+						document.write(a)
+```
