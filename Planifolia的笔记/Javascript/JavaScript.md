@@ -373,3 +373,183 @@ console.log(typeof object);
 						// A 0  B 2  C 5 D 10
 						document.write(a)
 ```
+
+## JavaScript第四天
+
+1.今天我们学习了js中函数的定义与使用，按照国际惯例首先讲一下它的语法格式，如何去定义一个函数在js中定义一个函数的关键字是function，定义函数的格式为 function 方法名(参数列表){方法体}，嗯确实和java中定义函数的方法相同，并且调用函数的方法就是方法名()来进行调用，接下来我们就通过一个简单的应用方法的例子来做展示。
+
+```javascript
+如下我们遵循js的函数定义方法定义了一个fun()函数，并且在下面进行了调用 
+                       function fun(){
+				for (var i = 0; i < 10; i++) {
+					document.write("你好世界"+i);
+					}
+			}
+			fun();
+```
+
+2.方法的事件绑定，我们写了个函数当然不能让他按照顺序进行执行调用，所以我们要进行方法的事件绑定比如说点击某一个按钮能够触发触发这个函数，显然这个需求是我们比较常用到的所以我们要介绍一下 onclick 事件，他常用于button标签上代表着点击这个button会去触发某一个事件。具体使用见下代码
+
+```javascript
+如下，我们在id为 a 的button上通过onclick事件绑定了方法blueRedChange(),也就是说当我们点击这个按钮的时候会执行方法blueRedChange()
+并且去切换一下背景颜色
+
+<button id="a" onclick="blueRedChange()">扣1送地狱火</button>
+
+function blueRedChange(){
+				if(document.body.style.background == "yellow"){
+					document.body.style.background = "red";
+				}else{
+					document.body.style.background= "yellow";
+				}
+			}
+
+```
+
+3.当然细心的你看见我们用了一个我们暂时没有了解到的知识 document.body.style.background = "red"; 我们具体分析一下这行代码，document我们之前用到过是用来调用write方法的来往网页上输出具体信息但是不知道为啥可以这样使用，其实doucument是用来获取当前网页对象的而 . 的意思就是调取对应的方法或者访问这个网页对象的子对象那么显然这行代码的意思是 “网页主题的body标签的style标签中的background属性并且将它设置为red”。所以我们可以通过这个来改变网页的背景颜色。
+
+了解了这个我们可以举一反三的来修改网页元素的样式或者内容，那么如果我们修改的样式过多不方便这样进行修改，那么我们可以通过id准确的获取到对应的网页标签并且修改它的类选择器来实现。具体代码如下
+
+```javascript
+<style type="text/css">
+		.a1{
+			background: red;
+			color: white;
+		}
+		.a2{
+			background: black;
+			color: aqua;
+		}
+	</style>
+	<body>
+		<button onclick="fun()">扣一</button>
+		<div id="k1">
+			送地狱火！！！！！！！！！！！
+		</div>
+		<script type="text/javascript">
+		var i=0;
+			function fun(){
+				if(i%2==0){
+					document.getElementById("k1").className="a1";
+				}else{
+					document.getElementById("k1").className="a2";
+				}
+				i++;
+			}
+		</script>
+	</body>
+```
+
+4.当你了解了上面的那些知识之后，js中函数理论基本上就讲完了我们接下来进行一些具体的应用。
+
+* 4.1 实现点击按钮完成轮换的切换背景图片，比如从0-5 6张图片每点击一次按钮切换一张并且循环，具体代码如下。
+
+  ```javascript
+  显然这一题的难点不在切换比背景图片，切换图片我们可以很容易的通过doucment.body来进行设置，而难点在如何实现轮换切换，
+  我们需要引入一个计数器，计数器是几我们就切换到第几张，并且让计数器跟5进行取余，来进行选择图片这样就实现了循环的切换图片。
+  <button id="a" onclick="changeTextByTime()">扣1送地狱火</button>
+  		<script type="text/javascript">
+
+  		var time=0;
+  function changeImageByTime(){
+  				document.body.style.backgroundImage="url(img/"+time%5+".png)";
+  				document.body.style.backgroundRepeat="no-repeat";
+  				document.body.style.backGroundPosition="center";
+  				document.body.style.backgroundSize="cover";
+  				time++;
+  			}
+
+  		</script>
+  ```
+* 4.2 实现猜数小游戏，当猜中了输出猜的次数，具体代码如下
+
+  ```javascript
+  猜数游戏是很经典的一道程序题，在js中进行实现首先我们要随机生成一个被猜的数，可以通过Math.random()方法来生成，但是这个方法生成的数据是0-1
+  内的小数，所以我们需要进行一些处理让他x100后取整我们就获取到了0-100的随机数。然后有了被猜的数。我们就要输入值了那么如何获取输入的值呢？同
+  样和修改类选择器一样通过getElementById来获取到这个标签并且通过.value属性来获取到而且切记要转化一下获取到的值为number类型，将输入的值与被猜的值进行判断
+  断如果相同则输出猜中了，不同则输出猜大了猜小了，具体的代码实现如下。
+
+  输入你要猜的数:<input type="text" name="numberInput" id="numberInput" /><button onclick="gassNumber()">猜</button>
+  		<div id="show"></div>
+  		<script type="text/javascript">
+  		//被猜数
+  			var gass=parseInt(Math.random()*100);
+  			var time=0;
+  			function gassNumber(){
+  				time++;
+  				var inputNumber=document.getElementById("numberInput").value;
+  				if(inputNumber>gass){
+  					document.getElementById("show").innerHTML="猜大了！";
+  					document.getElementById("show").style.color="#ff0004";
+  				}else if(inputNumber<gass){
+  					document.getElementById("show").innerHTML="猜小了！";
+  					document.getElementById("show").style.color="#1100ff";
+  				}else{
+  					document.getElementById("show").innerHTML="恭喜你猜对了！你一共猜了"+time+"次";
+  					document.getElementById("show").style.color="#afff7d";
+  				}
+  			}
+  		</script>
+  ```
+* 4.3 简易计算器，两个输入框，四个按钮实现两个数的加减乘数。具体代码如下
+
+  ```javascript
+  我们想要实现加减乘除四个功能那么必然需要四个函数，四个按钮来调用这四个函数，而且需要两个输入框来获得到被运算的两个数并且根据我们点击的按钮进行判断执行不同的函数来实现加减乘除。
+  <body>
+  		输入第一个数:<input type="text" id="numbera" /><br>
+  		输入第二个数:<input type="text" id="numberb" /><br>
+  		<button onclick="add()">加</button>
+  		<button onclick="jian()">减</button><br>
+  		<button onclick="cheng()">乘</button>
+  		<button onclick="chu()">除</button><br>
+  		<div id="show"></div>
+
+  		<script type="text/javascript">
+
+  			function add(){
+  				var number1=Number(document.getElementById("numbera").value);
+  				var number2=Number(document.getElementById("numberb").value);
+  				document.getElementById("show").innerHTML=number1+"+"+number2+"的结果为"+(number1+number2);
+  			}
+  			function jian(){
+  				var number1=Number(document.getElementById("numbera").value);
+  				var number2=Number(document.getElementById("numberb").value);
+  				document.getElementById("show").innerHTML=number1+"-"+number2+"的结果为"+(number1-number2);
+  			}
+  			function cheng(){
+  				var number1=Number(document.getElementById("numbera").value);
+  				var number2=Number(document.getElementById("numberb").value);
+  				document.getElementById("show").innerHTML=number1+"X"+number2+"的结果为"+(number1*number2);
+  			}
+  			function chu(){
+  				var number1=Number(document.getElementById("numbera").value);
+  				var number2=Number(document.getElementById("numberb").value);
+  				document.getElementById("show").innerHTML=number1+"÷"+number2+"结果为"+(number1/number2);
+  			}
+  		</script>
+  	</body>
+  ```
+* 4.4 计算机进阶版，显然我们上面的代码过于冗杂，光计算函数都写了四个，我们想要简化这些代码所以可以将运算符当作参数列表传入函数中，让函数根据不同的传入参数来实现不同的计算结果。具体代码如下
+
+  ```javascript
+  在下面的代码中我们使用了一个特殊的方法 eval(字符串表达式),这个方法可以将括号中的字符转化成可以执行的表达式然后进行运算，所以即使我们往函数
+  传入的是字符串类型也能够正常的运算。
+  <body>
+  		输入第一个数:<input type="text" id="numbera" /><br>
+  		输入第二个数:<input type="text" id="numberb" /><br>
+  		<button onclick="jsq('+')">加</button>
+  		<button onclick="jsq('-')">减</button><br>
+  		<button onclick="jsq('*')">乘</button>
+  		<button onclick="jsq('/')">除</button><br>
+  		<div id="show">
+
+  		</div>
+  		<script type="text/javascript">
+
+  			function jsq(a){
+  				show.innerHTML = eval(numbera.value + a + numberb.value);
+  			}
+  		</script>
+
+  	</body>
+  ```
